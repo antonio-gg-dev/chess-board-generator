@@ -16,21 +16,55 @@
       }
 
       .square.square-odd {
-        background: steelblue;
+        background: var(--odd-color);
       }
 
       .square.square-even {
-        background: lightgray;
+        background: var(--even-color);
       }
     </style>
 
     <script>
+      function updateBoard() {
+        const body = document.querySelector('body');
+        const oddColor = document.querySelector('#odd-color');
+        const evenColor = document.querySelector('#even-color');
 
+        body.style.setProperty('--odd-color', oddColor.value);
+        body.style.setProperty('--even-color', evenColor.value);
+      }
     </script>
   </head>
-  <body>
+  <body
+    style="
+      --odd-color: #738d98;
+      --even-color: #0e2527;
+    "
+  >
     <header>
+      <label
+        for="odd-color"
+      >
+        Odd color:
+      </label>
+      <input
+        id="odd-color"
+        type="color"
+        value="#738d98"
+        onchange="updateBoard();"
+      >
 
+      <label
+        for="even-color"
+      >
+        Even color:
+      </label>
+      <input
+        id="even-color"
+        type="color"
+        value="#0e2527"
+        onchange="updateBoard();"
+      >
     </header>
 
     <main>
