@@ -5,14 +5,79 @@
     <title>Chess Board Generator</title>
 
     <style>
+      @media print {
+        * {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+
+        header {
+          display: none;
+        }
+
+        footer {
+          display: none;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+
+        display: grid;
+        grid-template-areas:
+          "header"
+          "main"
+          "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+      }
+
+      @media (orientation: landscape) {
+        body {
+          grid-template-areas:
+          "header main"
+          "footer main";
+          grid-template-columns: auto 1fr;
+          grid-template-rows: 1fr auto;
+        }
+      }
+
+      header {
+        grid-area: header;
+      }
+
+      main {
+        grid-area: main;
+        display: grid;
+        gap: var(--separation-amount);
+        transition: gap ease-in-out 300ms;
+        justify-content: center;
+        align-content: center;
+      }
+
+      footer {
+        grid-area: footer;
+      }
+
       .board {
-        aspect-ratio: 1;
         display: grid;
         grid-template-columns: repeat(8, 1fr);
+        justify-content: center;
+        align-content: center;
+        width: 100vmin;
+        height: 100vmin;
       }
 
       .square {
         aspect-ratio: 1;
+        transition: background-color ease-in-out 300ms;
       }
 
       .square.square-odd {
@@ -29,9 +94,22 @@
         const body = document.querySelector('body');
         const oddColor = document.querySelector('#odd-color');
         const evenColor = document.querySelector('#even-color');
+        const separation = document.querySelector('#separation');
 
         body.style.setProperty('--odd-color', oddColor.value);
         body.style.setProperty('--even-color', evenColor.value);
+        body.style.setProperty('--separation-amount', separation.value + 'px');
+      }
+
+      function resetBoard() {
+        const form = document.querySelector('form');
+
+        form.reset();
+        updateBoard();
+      }
+
+      function printBoard() {
+        window.print();
       }
     </script>
   </head>
@@ -39,128 +117,158 @@
     style="
       --odd-color: #738d98;
       --even-color: #0e2527;
+      --separation-amount: 0px;
     "
+    onload="updateBoard();"
   >
-    <header>
-      <label
-        for="odd-color"
-      >
-        Odd color:
-      </label>
-      <input
-        id="odd-color"
-        type="color"
-        value="#738d98"
-        onchange="updateBoard();"
-      >
+      <header>
+        <form
+          oninput="updateBoard();"
+        >
+          <label
+            for="odd-color"
+          >
+            Odd color:
+          </label>
+          <input
+            id="odd-color"
+            type="color"
+            value="#738d98"
+          >
 
-      <label
-        for="even-color"
-      >
-        Even color:
-      </label>
-      <input
-        id="even-color"
-        type="color"
-        value="#0e2527"
-        onchange="updateBoard();"
-      >
-    </header>
+          <label
+            for="even-color"
+          >
+            Even color:
+          </label>
+          <input
+            id="even-color"
+            type="color"
+            value="#0e2527"
+          >
 
-    <main>
-      <div class="board">
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
+          <label
+            for="separation"
+          >
+            Separation:
+          </label>
+          <input
+            id="separation"
+            type="number"
+            min="0"
+            value="0"
+          >
 
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
+          <button
+            type="button"
+            onclick="resetBoard();"
+          >
+            Reset
+          </button>
 
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
+          <button
+            type="button"
+            onclick="printBoard();"
+          >
+            Print
+          </button>
+        </form>
+      </header>
 
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
+      <main>
+        <div class="board">
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
 
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
 
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
 
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
 
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-        <div class="square square-even"></div>
-        <div class="square square-odd"></div>
-      </div>
-    </main>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
 
-    <footer>
-      This chess board generator has been developed to customize your own printable chess board.
-      <br>
-      Do you have a 3D printer?
-      <a
-        href="https://www.prusaprinters.org/prints/73739-travel-chess-tube"
-        target="_blank"
-      >
-        Print your own pieces too!
-      </a>
-      <br>
-      Found an issue?
-      <a
-        href="https://github.com/Tito-Kati/chess-board-generator/issues"
-        target="_blank"
-      >
-        Let me know!
-      </a>
-    </footer>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+          <div class="square square-even"></div>
+          <div class="square square-odd"></div>
+        </div>
+      </main>
+
+      <footer>
+        This chess board generator has been developed to customize your own printable chess board.
+        <br>
+        Do you have a 3D printer?
+        <a
+          href="https://www.prusaprinters.org/prints/73739-travel-chess-tube"
+          target="_blank"
+        >
+          Print your own pieces too!
+        </a>
+        <br>
+        Found an issue?
+        <a
+          href="https://github.com/Tito-Kati/chess-board-generator/issues"
+          target="_blank"
+        >
+          Let me know!
+        </a>
+      </footer>
   </body>
 </html>
