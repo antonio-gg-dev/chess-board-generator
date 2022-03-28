@@ -18,12 +18,15 @@
         }
       }
 
+      p {
+        margin: 0;
+      }
+
       body {
         width: 100vw;
         height: 100vh;
         margin: 0;
         overflow: hidden;
-
         display: grid;
         align-content: center;
         justify-content: center;
@@ -37,13 +40,13 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 1em;
-        gap: 1em;
+        padding: 16px;
+        gap: 16px;
         overflow-y: auto;
         z-index: 1;
         background: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(0.25em);
-        width: 20em;
+        width: 320px;
         max-width: 90vw;
       }
 
@@ -54,15 +57,118 @@
       }
 
       form {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
+        display: grid;
+        gap: 16px;
+        grid-template-areas:
+          "odd-color         even-color"
+          "separation-amount separation-color"
+          "button-reset      button-print";
+        grid-template-columns: 1fr 1fr;
       }
 
-      .actions {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1em;
+      label {
+        transition: color ease-in-out 200ms;
+      }
+
+      label:hover,
+      label:focus {
+        color: var(--odd-color);
+      }
+
+      label[for=odd-color] {
+        grid-area: odd-color;
+      }
+
+      label[for=even-color] {
+        grid-area: even-color;
+      }
+
+      label[for=separation-amount] {
+        grid-area: separation-amount;
+      }
+
+      input,
+      button {
+        display: block;
+        width: 100%;
+        height: 32px;
+        appearance: none;
+        border: solid 1px var(--even-color);
+        padding: 3px;
+        outline: none;
+        background: #f5f5f5;
+        transition-property: border, background, color;
+        transition-timing-function: ease-in-out;
+        transition-duration: 200ms;
+      }
+
+      input:hover,
+      input:focus,
+      button:hover,
+      button:focus {
+        border-color: var(--odd-color);
+        background: #ffffff;
+      }
+
+      input[type=color] {
+        cursor: pointer;
+      }
+
+      input[type=color]::-moz-color-swatch {
+        border: none;
+      }
+
+      input[type=color]::-webkit-color-swatch {
+        border: none;
+      }
+
+      input[type=color]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      .button-reset {
+        grid-area: button-reset;
+      }
+
+      .button-reset {
+        color: var(--even-color);
+      }
+
+      .button-reset:hover,
+      .button-reset:focus {
+        color: var(--odd-color);
+      }
+
+      .button-print {
+        color: var(--odd-color);
+        grid-area: button-print;
+        border: none;
+        background: var(--even-color);
+      }
+
+      .button-print:hover,
+      .button-print:focus {
+        color: var(--even-color);
+        border: none;
+        background: var(--odd-color);
+      }
+
+      footer {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      a {
+        color: var(--even-color);
+        text-decoration: underline;
+        font-weight: bold;
+        transition: color ease-in-out 200ms;
+      }
+
+      a:hover,
+      a:focus {
+        color: var(--odd-color);
       }
 
       .board {
@@ -70,16 +176,18 @@
         gap: var(--separation-amount);
         grid-template-columns: repeat(8, 1fr);
         grid-template-rows: repeat(8, 1fr);
-        transition: gap, margin-left ease-in-out 300ms;
+        transition-property: gap, margin-left;
+        transition-timing-function: ease-in-out;
+        transition-duration: 200ms;
         justify-content: center;
         align-content: center;
         width: calc(100vmin - 2em);
         height: calc(100vmin - 2em);
       }
 
-      @media screen and (min-width: calc(100vmin + 20em)) {
+      @media screen and (min-width: calc(320px + 100vmin)) {
         .board {
-          margin-left: 20em;
+          margin-left: 320px;
         }
       }
 
@@ -92,7 +200,7 @@
       }
 
       .square {
-        transition: background-color ease-in-out 300ms;
+        transition: background-color ease-in-out 200ms;
       }
 
       .square.square-odd {
@@ -109,7 +217,7 @@
         const body = document.querySelector('body');
         const oddColor = document.querySelector('#odd-color');
         const evenColor = document.querySelector('#even-color');
-        const separation = document.querySelector('#separation');
+        const separation = document.querySelector('#separation-amount');
 
         body.style.setProperty('--odd-color', oddColor.value);
         body.style.setProperty('--even-color', evenColor.value);
@@ -142,6 +250,7 @@
           Odd color:
           <input
             id="odd-color"
+            class="input input-color"
             type="color"
             value="#738d98"
           >
@@ -151,58 +260,65 @@
           Even color:
           <input
             id="even-color"
+            class="input input-color"
             type="color"
             value="#0e2527"
           >
         </label>
 
-        <label for="separation">
+        <label for="separation-amount">
           Separation:
-          <input
-            id="separation"
-            type="number"
-            min="0"
-            value="0"
-            step="0.1"
-          >
+          <span class="input-unit">
+            <input
+              id="separation-amount"
+              type="number"
+              min="0"
+              value="0"
+              step="0.1"
+            >
+          </span>
         </label>
 
-        <div class="actions">
-          <button
-            type="button"
-            onclick="resetBoard()"
-          >
-            Reset
-          </button>
+        <button
+          type="button"
+          class="button-reset"
+          onclick="resetBoard()"
+        >
+          Reset
+        </button>
 
-          <button
-            type="button"
-            onclick="printBoard()"
-          >
-            Print
-          </button>
-        </div>
+        <button
+          type="button"
+          class="button-print"
+          onclick="printBoard()"
+        >
+          Print
+        </button>
       </form>
 
       <footer>
-        This chess board generator has been developed to customize your own
-        printable chess boards.
-        <br>
-        Do you have a 3D printer?
-        <a
-          href="https://www.prusaprinters.org/prints/73739-travel-chess-tube"
-          target="_blank"
-        >
-          Print your own pieces too!
-        </a>
-        <br>
-        Found an issue?
-        <a
-          href="https://github.com/Tito-Kati/chess-board-generator/issues"
-          target="_blank"
-        >
-          Let me know!
-        </a>
+        <p>
+          This chess board generator has been developed to customize your own
+          printable chess boards.
+        </p>
+        <p>
+          Do you have a 3D printer?
+          <a
+            href="https://www.prusaprinters.org/prints/73739-travel-chess-tube"
+            target="_blank"
+          >
+            Print your own pieces too!
+          </a>
+        </p>
+        <p>
+          Found an issue?
+          <a
+            href="https://github.com/Tito-Kati/chess-board-generator/issues"
+            target="_blank"
+          >
+            Let me know!
+          </a>
+        </p>
       </footer>
     </main>
 
