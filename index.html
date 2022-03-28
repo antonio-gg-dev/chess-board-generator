@@ -10,18 +10,11 @@
           print-color-adjust: exact;
           -webkit-print-color-adjust: exact;
         }
-
-        header {
-          display: none;
-        }
-
-        footer {
-          display: none;
-        }
       }
 
       * {
         box-sizing: border-box;
+        font-family: sans-serif;
       }
 
       body {
@@ -31,52 +24,72 @@
         overflow: hidden;
 
         display: grid;
-        grid-template-areas:
-          "header"
-          "main"
-          "footer";
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
-      }
-
-      @media (orientation: landscape) {
-        body {
-          grid-template-areas:
-          "header main"
-          "footer main";
-          grid-template-columns: auto 1fr;
-          grid-template-rows: 1fr auto;
-        }
-      }
-
-      header {
-        grid-area: header;
+        align-content: center;
+        justify-content: center;
       }
 
       main {
-        grid-area: main;
-        display: grid;
-        gap: var(--separation-amount);
-        transition: gap ease-in-out 300ms;
-        justify-content: center;
-        align-content: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1em;
+        gap: 1em;
+        overflow-y: auto;
+        z-index: 1;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(0.25em);
+        width: 20em;
+        max-width: 90vw;
       }
 
-      footer {
-        grid-area: footer;
+      @media print {
+        main {
+          display: none;
+        }
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1em;
       }
 
       .board {
         display: grid;
+        gap: var(--separation-amount);
         grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        transition: gap ease-in-out 300ms;
         justify-content: center;
         align-content: center;
-        width: 100vmin;
-        height: 100vmin;
+        width: calc(100vmin - 2em);
+        height: calc(100vmin - 2em);
+      }
+
+      @media print {
+        .board {
+          width: 100vmin;
+          height: 100vmin;
+        }
+      }
+
+      @media screen and (min-width: calc(100vmin + 20em)) {
+        .board {
+          margin-left: 20em;
+        }
       }
 
       .square {
-        aspect-ratio: 1;
         transition: background-color ease-in-out 300ms;
       }
 
@@ -98,7 +111,7 @@
 
         body.style.setProperty('--odd-color', oddColor.value);
         body.style.setProperty('--even-color', evenColor.value);
-        body.style.setProperty('--separation-amount', separation.value + 'px');
+        body.style.setProperty('--separation-amount', separation.value + 'mm');
       }
 
       function resetBoard() {
@@ -121,135 +134,52 @@
     "
     onload="updateBoard();"
   >
-      <header>
-        <form
-          oninput="updateBoard();"
-        >
-          <label
-            for="odd-color"
-          >
-            Odd color:
-          </label>
+    <main>
+      <form oninput="updateBoard()">
+        <label for="odd-color">
+          Odd color:
           <input
             id="odd-color"
             type="color"
             value="#738d98"
           >
+        </label>
 
-          <label
-            for="even-color"
-          >
-            Even color:
-          </label>
+        <label for="even-color">
+          Even color:
           <input
             id="even-color"
             type="color"
             value="#0e2527"
           >
+        </label>
 
-          <label
-            for="separation"
-          >
-            Separation:
-          </label>
+        <label for="separation">
+          Separation:
           <input
             id="separation"
             type="number"
             min="0"
             value="0"
           >
+        </label>
 
+        <div class="actions">
           <button
             type="button"
-            onclick="resetBoard();"
+            onclick="resetBoard()"
           >
             Reset
           </button>
 
           <button
             type="button"
-            onclick="printBoard();"
+            onclick="printBoard()"
           >
             Print
           </button>
-        </form>
-      </header>
-
-      <main>
-        <div class="board">
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
-          <div class="square square-even"></div>
-          <div class="square square-odd"></div>
         </div>
-      </main>
+      </form>
 
       <footer>
         This chess board generator has been developed to customize your own printable chess board.
@@ -270,5 +200,80 @@
           Let me know!
         </a>
       </footer>
+    </main>
+
+    <div class="board">
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+      <div class="square square-even"></div>
+      <div class="square square-odd"></div>
+    </div>
   </body>
 </html>
