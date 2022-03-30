@@ -9,9 +9,13 @@
   </head>
   <body
     style="
-      --odd-color: #738d98;
-      --even-color: #0e2527;
+      --odd-color: #c7a9af;
+      --even-color: #3b1d23;
+      --border-amount: 0px;
+      --border-color: #ffffff;
       --separation-amount: 0px;
+      --separation-color: #ffffff;
+      --outer-separation: 0;
     "
     onload="updateBoard();"
   >
@@ -21,9 +25,9 @@
           Odd color:
           <input
             id="odd-color"
-            class="input input-color"
+            class="input"
             type="color"
-            value="#738d98"
+            value="#c7a9af"
           >
         </label>
 
@@ -31,15 +35,39 @@
           Even color:
           <input
             id="even-color"
-            class="input input-color"
+            class="input"
             type="color"
-            value="#0e2527"
+            value="#3b1d23"
+          >
+        </label>
+
+        <label for="border-amount">
+          Border amount:
+          <span class="input">
+            <input
+              id="border-amount"
+              type="number"
+              min="0"
+              value="0"
+              step="0.1"
+            >
+            <abbr title="millimeters">mm</abbr>
+          </span>
+        </label>
+
+        <label for="border-color">
+          Border color:
+          <input
+            id="border-color"
+            class="input"
+            type="color"
+            value="#000000"
           >
         </label>
 
         <label for="separation-amount">
-          Separation:
-          <span class="input-unit">
+          Separation amount:
+          <span class="input">
             <input
               id="separation-amount"
               type="number"
@@ -47,12 +75,32 @@
               value="0"
               step="0.1"
             >
+            <abbr title="millimeters">mm</abbr>
           </span>
+        </label>
+
+        <label for="separation-color">
+          Separation color:
+          <input
+            id="separation-color"
+            class="input"
+            type="color"
+            value="#ffffff"
+          >
+        </label>
+
+        <label for="outer-separation">
+          <input
+            id="outer-separation"
+            class="input"
+            type="checkbox"
+          >
+          Outer separation
         </label>
 
         <button
           type="button"
-          class="button-reset"
+          class="button button-reset"
           onclick="resetBoard()"
         >
           Reset
@@ -60,7 +108,7 @@
 
         <button
           type="button"
-          class="button-print"
+          class="button button-print"
           onclick="printBoard()"
         >
           Print
@@ -93,78 +141,80 @@
       </footer>
     </main>
 
-    <div class="board">
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
+    <div class="wrapper">
+      <div class="board">
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
 
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
 
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
 
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
 
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
 
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
 
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
 
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
-      <div class="square square-even"></div>
-      <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+        <div class="square square-even"></div>
+        <div class="square square-odd"></div>
+      </div>
     </div>
   </body>
 </html>
