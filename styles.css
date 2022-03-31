@@ -34,15 +34,16 @@ main {
   backdrop-filter: blur(0.25em);
   width: 400px;
   max-width: calc(100vw - 96px);
+  transform: translateX(-100%);
   transition: transform ease-in-out 200ms;
 }
 
 main.open {
-  transform: translateX(-100%);
+  transform: translateX(0);
 }
 
 @media screen and (min-width: calc(400px + 100vmin)) {
-  main.open {
+  main {
     transform: translateX(0);
   }
 }
@@ -198,6 +199,7 @@ label[for=outer-separation] {
   transition-timing-function: ease-in-out;
   transition-duration: 200ms;
   appearance: none;
+  cursor: pointer;
 }
 
 .button.button-reset {
@@ -246,7 +248,7 @@ a:focus {
   color: #dc143c;
 }
 
-.toggle-button {
+.toggle {
   position: fixed;
   right: -16px;
   top: 16px;
@@ -258,18 +260,37 @@ a:focus {
   border: none;
   padding: 0;
   margin: 0;
-  transition: background ease-in-out 200ms;
+  cursor: pointer;
+  transition-property: background, color, visibility;
+  transition-timing-function: ease-in-out;
+  transition-duration: 200ms;
 }
 
-.toggle-button:hover,
-.toggle-button:focus {
+.toggle:hover,
+.toggle:focus {
   background: #ffffff;
   color: #8f1b32;
 }
 
+main .toggle.toggle-open {
+  visibility: visible;
+}
+
+main.open .toggle.toggle-open {
+  visibility: hidden;
+}
+
+main .toggle.toggle-close {
+  visibility: hidden;
+}
+
+main.open .toggle.toggle-close {
+  visibility: visible;
+}
+
 @media screen and (min-width: calc(400px + 100vmin)) {
-  .toggle-button {
-    display: none;
+  .toggle {
+    visibility: hidden !important;
   }
 }
 

@@ -32,7 +32,7 @@
     "
     onload="updateBoard();"
   >
-    <main class="open">
+    <main>
       <form oninput="updateBoard()">
         <label for="odd-color">
           Odd color:
@@ -156,11 +156,19 @@
       </form>
 
       <button
-        class="toggle-button"
-        onclick="toggleMenu()"
+        class="toggle toggle-open"
+        onclick="openMenu()"
         title="Customize"
       >
         <i class="fa-solid fa-paintbrush fa-2xl"></i>
+      </button>
+
+      <button
+        class="toggle toggle-close"
+        onclick="closeMenu()"
+        title="Customize"
+      >
+        <i class="fa-solid fa-xmark fa-2xl"></i>
       </button>
     </main>
 
