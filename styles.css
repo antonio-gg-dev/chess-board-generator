@@ -25,21 +25,26 @@ body {
 }
 
 main {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px;
-  gap: 16px;
-  overflow-y: auto;
   z-index: 1;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(0.25em);
   width: 400px;
-  max-width: 90vw;
+  max-width: calc(100vw - 96px);
+  transition: transform ease-in-out 200ms;
+}
+
+main.open {
+  transform: translateX(-100%);
+}
+
+@media screen and (min-width: calc(400px + 100vmin)) {
+  main.open {
+    transform: translateX(0);
+  }
 }
 
 @media print {
@@ -51,14 +56,20 @@ main {
 form {
   display: grid;
   gap: 16px;
+  padding: 16px;
+  height: 100%;
   grid-template-areas:
-          "odd-color         even-color"
-          "border-amount     border-color"
-          "separation-amount separation-color"
-          "outer-separation  outer-separation"
-          "button-reset      button-print";
+    "odd-color         even-color"
+    "border-amount     border-color"
+    "separation-amount separation-color"
+    "outer-separation  outer-separation"
+    "button-reset      button-print"
+    "footer            footer";
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(5, auto) 1fr;
   align-items: end;
+  align-content: start;
+  overflow-x: auto;
 }
 
 label {
@@ -186,6 +197,7 @@ label[for=outer-separation] {
   transition-property: border, background, color;
   transition-timing-function: ease-in-out;
   transition-duration: 200ms;
+  appearance: none;
 }
 
 .button.button-reset {
@@ -216,6 +228,7 @@ label[for=outer-separation] {
 }
 
 footer {
+  grid-area: footer;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -231,6 +244,33 @@ a {
 a:hover,
 a:focus {
   color: #dc143c;
+}
+
+.toggle-button {
+  position: fixed;
+  right: -16px;
+  top: 16px;
+  height: 64px;
+  width: 64px;
+  transform: translateX(100%);
+  border-radius: 100%;
+  background: #f5f5f5;
+  border: none;
+  padding: 0;
+  margin: 0;
+  transition: background ease-in-out 200ms;
+}
+
+.toggle-button:hover,
+.toggle-button:focus {
+  background: #ffffff;
+  color: #8f1b32;
+}
+
+@media screen and (min-width: calc(400px + 100vmin)) {
+  .toggle-button {
+    display: none;
+  }
 }
 
 .wrapper {
@@ -260,7 +300,9 @@ a:focus {
   display: grid;
   gap: var(--separation-amount);
   background: var(--separation-color);
-  border: solid calc(var(--separation-amount) * var(--outer-separation)) var(--separation-color);
+  border-style: solid;
+  border-width: calc(var(--separation-amount) * var(--outer-separation));
+  border-color: var(--separation-color);
   transition-property: gap, border, background;
   transition-timing-function: ease-in-out;
   transition-duration: 200ms;

@@ -49,3 +49,21 @@ function printBoard() {
   window.print();
 }
 
+function toggleMenu() {
+  const main = document.querySelector('main');
+  const toggleButton = document.querySelector('.toggle-button')
+  const icon = toggleButton.querySelector('i');
+
+  if (main.classList.contains('open')) {
+    main.classList.remove('open');
+    toggleButton.setAttribute('title', 'Close');
+    icon.classList.add('fa-xmark');
+    icon.classList.remove('fa-paintbrush');
+  } else {
+    main.classList.add('open');
+    toggleButton.setAttribute('title', 'Customize');
+    icon.classList.add('fa-paintbrush');
+    icon.classList.remove('fa-xmark');
+  }
+}
+

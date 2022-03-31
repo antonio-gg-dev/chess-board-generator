@@ -3,9 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <title>Chess Board Generator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    >
     <script src="./app.js"></script>
-    <link rel="stylesheet" href="./styles.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    >
+    <link
+      rel="stylesheet"
+      href="./styles.css"
+    >
   </head>
   <body
     style="
@@ -19,7 +32,7 @@
     "
     onload="updateBoard();"
   >
-    <main>
+    <main class="open">
       <form oninput="updateBoard()">
         <label for="odd-color">
           Odd color:
@@ -103,6 +116,7 @@
           class="button button-reset"
           onclick="resetBoard()"
         >
+          <i class="fa-solid fa-rotate-left"></i>
           Reset
         </button>
 
@@ -111,34 +125,43 @@
           class="button button-print"
           onclick="printBoard()"
         >
+          <i class="fa-solid fa-print"></i>
           Print
         </button>
+
+        <footer>
+          <p>
+            This chess board generator has been developed to customize your own
+            printable chess boards.
+          </p>
+          <p>
+            Do you have a 3D printer?
+            <a
+              href="https://www.prusaprinters.org/prints/73739-travel-chess-tube"
+              target="_blank"
+            >
+              Print your own pieces too!
+            </a>
+          </p>
+          <p>
+            Found an issue?
+            <a
+              href="https://github.com/Tito-Kati/chess-board-generator/issues"
+              target="_blank"
+            >
+              Let me know!
+            </a>
+          </p>
+        </footer>
       </form>
 
-      <footer>
-        <p>
-          This chess board generator has been developed to customize your own
-          printable chess boards.
-        </p>
-        <p>
-          Do you have a 3D printer?
-          <a
-            href="https://www.prusaprinters.org/prints/73739-travel-chess-tube"
-            target="_blank"
-          >
-            Print your own pieces too!
-          </a>
-        </p>
-        <p>
-          Found an issue?
-          <a
-            href="https://github.com/Tito-Kati/chess-board-generator/issues"
-            target="_blank"
-          >
-            Let me know!
-          </a>
-        </p>
-      </footer>
+      <button
+        class="toggle-button"
+        onclick="toggleMenu()"
+        title="Customize"
+      >
+        <i class="fa-solid fa-paintbrush fa-2xl"></i>
+      </button>
     </main>
 
     <div class="wrapper">
